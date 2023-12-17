@@ -17,6 +17,9 @@ public class NotGPT implements SearchEngine{
         }
 
         @Override
+        /**
+         * Used to sort the votes first by the index then by the influence.
+         */
         public int compareTo(Vote o) {
             Long otherIndex = o.index;
             if (index != otherIndex) {
@@ -156,6 +159,8 @@ public class NotGPT implements SearchEngine{
      * @param defaultInfluence value to prevent urls from disappearing
      */
     public void rankFast (double defaultInfluence) {
+
+        // Create the list of votes for each page
         List<Vote> voteList = new ArrayList<>();
         for (Map.Entry<Long, InfoFile> entry : pageDisk.entrySet()) {
             InfoFile file = entry.getValue();
@@ -166,10 +171,12 @@ public class NotGPT implements SearchEngine{
             }
         }
 
-        Collections.sort(voteList);
-        ListIterator<Vote> voteIterator = voteList.listIterator();
 
+        Collections.sort(voteList);
+
+        ListIterator<Vote> voteIterator = voteList.listIterator();
         Vote vote = voteIterator.hasNext() ? voteIterator.next() : null;
+
         for (Map.Entry<Long, InfoFile> entry : pageDisk.entrySet()) {
             long index = entry.getKey();
             InfoFile file = entry.getValue();
@@ -178,7 +185,11 @@ public class NotGPT implements SearchEngine{
                 file.influenceTemp += vote.vote;
                 vote = voteIterator.hasNext() ? voteIterator.next() : null;
             }
+
+            // Sets the InfoFile's influence after this iteration
             file.influence = file.influenceTemp + defaultInfluence;
+
+            // reset the influenceTemp for the next iteration
             file.influenceTemp = 0.0;
         }
     }
@@ -216,6 +227,8 @@ public class NotGPT implements SearchEngine{
 
     }
 
+
+
     /**
      * Search for up to numResults pages containing all searchWords
      * @param searchWords user inputted words to search
@@ -248,6 +261,7 @@ public class NotGPT implements SearchEngine{
         // Current page index in each list, just ``behind'' the iterator
         long[] currentPageIndex;
 
+        // Set the listIterator to the indices array in its InfoFile for each word in searchWords that has been indexed
         for (int i = 0; i < wordPageIndexIterators.length; i++) {
             long wordIndex = wordToIndex.get(searchWords.get(i));
             List<Long> wordIndices = wordDisk.get(wordIndex).indices;
@@ -256,7 +270,9 @@ public class NotGPT implements SearchEngine{
 
         currentPageIndex = new long[wordPageIndexIterators.length];
 
+        // Move each iterator through the lists by moving the smaller indices to match the largest until one of the lists does not have a next.
         while (getNextPageIndices(currentPageIndex, wordPageIndexIterators)) {
+            // If every word appears on the same page, add it to bestPageIndices
             if (allEqual(currentPageIndex)) {
                 long index = currentPageIndex[0];
                 System.out.println(pageDisk.get(index).data);
