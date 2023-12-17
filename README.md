@@ -14,7 +14,7 @@ This is a java class that simulates a physical hard disk. It implements a treeMa
 
 ### InfoFile
 
-This class is used to store all the data associated with each page and each word referenced on all the pages. This class can be broken down into its its attributes:
+This class is used to store all the data associated with each page and each word referenced on all the pages. The InfoFiles are the objects that are stored on the HardDisk objects. This class can be broken down into its its attributes:
 
 data - Contains a string which is equal to either the url or the word that this InfoFile corresponds to.
 
@@ -51,6 +51,8 @@ This is a simplified version of google's page-rank algorithm. The algorithm work
 This portion of the algorithm will actually return the results to your search inquiry with the 10 pages that match your inquiry and have the highest influences. The 10 best search results are found by storing all of the search results into a priority queue that stores the lowest influence match at the root. By limiting the size of the queue to 10, the algorithm can compare any new matches to the root of the priorityQueue and do nothing if the match is less than the root. Otherwise, the algorithm will poll the root and offer the new match in its place, and the PriorityQueue comparator will place the new match in its correct ranking. 
 
 ## Usage
+
+To work properly, the jsoup-1.8.3.jar file must be added as a dependency in the configurations. 
 
 To see a demo of the algorithm, run the search file. For the purposes of the demo, a word disk and page disk file have already been provided. These files only contain the numbers 1 through 90 as words, and searching multiple numbers will return only multiples of those numbers. For example, searching 2 and 3 should return multiples of 2 and 3. However, it will only return the 10 results with the highest influence. If no matches exist, a blank array will be returned.
 
