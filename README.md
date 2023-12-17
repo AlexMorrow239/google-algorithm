@@ -44,8 +44,16 @@ The algorithm is provided a list of urls to begin with, and it initializes a Que
 
 ### 2. Ranking
 
+This is a simplified version of google's page-rank algorithm. The algorithm works by assigning each page an initial influence of 1, and making each page give its entire influence proportionally to each webpage it references. This process is repeated for a number of iterations until the influences of each page converge to their final numbers. 
+
 ### 3. Searching
+
+This portion of the algorithm will actually return the results to your search inquiry with the 10 pages that match your inquiry and have the highest influences. The 10 best search results are found by storing all of the search results into a priority queue that stores the lowest influence match at the root. By limiting the size of the queue to 10, the algorithm can compare any new matches to the root of the priorityQueue and do nothing if the match is less than the root. Otherwise, the algorithm will poll the root and offer the new match in its place, and the PriorityQueue comparator will place the new match in its correct ranking. 
 
 ## Usage
 
+To see a demo of the algorithm, run the search file. For the purposes of the demo, a word disk and page disk file have already been provided. These files only contain the numbers 1 through 90 as words, and searching multiple numbers will return only multiples of those numbers. For example, searching 2 and 3 should return multiples of 2 and 3. However, it will only return the 10 results with the highest influence. If no matches exist, a blank array will be returned.
+
 ## Acknowledgments
+
+This project was created for CSC220 at the University of Miami taught by Victor Milenkovic. Dr. Milenkovic created the framework and also provided guidance throughout the project. 
