@@ -26,11 +26,25 @@ indices - An array of index positions of where that InfoFile's data is reference
 
 Final influence - Final influence after designated number of iterations of the ranking algorithm.
 
-### wordDisc && pageDisc
+### wordDisk && pageDisk
 
 These variables are HardDisk objects that represent a harddisk for storing every word seen on every website and one for every url seen.
 
+### urlToIndex && wordToIndex
+
+These variables are both maps whose keys are either the word or url as a String and whose values are the index positions of that url or word in its respective harddisk. There is one key difference between these two variables. urlToIndex implements a treeMap to enable it to handle the large volume of urls on the internet and wordToIndex implements a hashMap because there are far less words and sotring the hashMap in memory is not an issue.
+
 ## Algorithm Analysis
+
+The complete algorithm can be broken down into 3 distinct sub-algorithms
+
+### 1. Collection
+
+The algorithm is provided a list of urls to begin with, and it initializes a Queue with these urls. Then, it preforms a breadth first search, indexing each page and every word on the page as it goes. The algorithm also has checks in place to ensure each url is only indexed once and each word is only indexed once per page. Indexing words and urls is simply the process of adding the word or url into the hardisk and adding the data with its corresponding index into urlToIndex or wordToIndex.
+
+### 2. Ranking
+
+### 3. Searching
 
 ## Usage
 
